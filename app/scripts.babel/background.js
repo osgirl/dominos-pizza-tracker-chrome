@@ -6,7 +6,16 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
 chrome.browserAction.setBadgeText({ text: '\'Allo' });
 
-console.log('\'Allo \'Allo! Event Page for Browser Action');
+chrome.tabs.onUpdated.addListener(handleNewTab);
+
+function handleNewTab(_, changeInfo) {
+  // Make sure that changeinfo is not undefined, which might happen if
+  // the tab url did not actually change but something else caused an update.
+  // The dominos.co.uk/pizzatracker url matches all urls: http[s] and [www.]
+  if (changeInfo.url && changeInfo.url.toLowerCase().includes('dominos.co.uk/pizzatracker')) {
+    chrome.storage.sync.set({ url: changeInfo.url });
+  };
+};
 
 function start(url, alarmInfo={periodInMinutes: 0.2}) {
   chrome.alarms.create("pizza", alarmInfo);
@@ -54,6 +63,7 @@ function getStatus(url) {
 module.exports = {
   getStatus: getStatus,
   handleStatus: handleStatus,
+  handleNewTab: handleNewTab,
   stop: stop,
   start: start,
 };

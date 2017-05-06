@@ -7,7 +7,8 @@ const {
   getStatus,
   handleStatus,
   start,
-  stop
+  stop,
+  handleNewTab
 } = require('./background');
 
 
@@ -78,6 +79,14 @@ describe('background', function () {
     });
 
     xit('sends a notification if the status has changed', function () {
+    });
+  });
+
+  describe('handleNewTab', function () {
+    it('sets the tab url in storage if it is a dominos pizza tracker url', function () {
+      const url = 'https://dominos.co.uk/pizzatracker?id=329331232414'
+      handleNewTab(undefined, { url });
+      assert.ok(chrome.storage.sync.set.withArgs({ url }).calledOnce);
     });
   });
 });
