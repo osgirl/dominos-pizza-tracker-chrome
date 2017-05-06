@@ -18,7 +18,7 @@ function handleNewTab(_, changeInfo) {
 };
 
 function start(url, alarmInfo={periodInMinutes: 0.2}) {
-  chrome.alarms.create("pizza", alarmInfo);
+  chrome.alarms.create('pizza', alarmInfo);
 }
 
 function stop() {
@@ -48,7 +48,7 @@ function getStatus(url) {
   }
 
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", url, false);
+  xhr.open('GET', url, false);
   xhr.send();
 
   var result = JSON.parse(xhr.responseText);
