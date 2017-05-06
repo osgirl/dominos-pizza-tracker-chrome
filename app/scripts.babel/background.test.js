@@ -11,7 +11,11 @@ const {
 
 
 describe('background', function () {
-  describe('stop', function () {
+  beforeEach(function () {
+    chrome.flush();
+  });
+
+ describe('stop', function () {
     it('clears remaining alarms', function () {
     });
 
