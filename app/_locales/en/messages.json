@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Domino&#39;s Pizza Tracker",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "Dom",
+    "description": "The description of the application"
+  }
+}
