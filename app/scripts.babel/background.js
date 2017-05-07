@@ -8,6 +8,7 @@ chrome.browserAction.setBadgeText({ text: '\'Allo' });
 
 chrome.tabs.onUpdated.addListener(handleNewTab);
 
+
 function handleNewTab(_, changeInfo) {
   // Make sure that changeinfo is not undefined, which might happen if
   // the tab url did not actually change but something else caused an update.
@@ -37,14 +38,20 @@ function getStatus(url) {
     return;
   }
 
-  const idToMessage = {
-    1: '?',
-    2: '?',
-    6: 'ordered',
-    5: 'baking',
-    8: 'quality check',
-    9: 'delivered',
-    3: 'delivered'
+  const orderStatus = {
+    "-1": "connectionError",
+    1: "cancelled",
+    4: "orderNotFound",
+    0: "init",
+    6: "order",
+    7: "prep",
+    5: "baking",
+    8: "quality",
+    10: "collection",
+    2: "collected",
+    9: "delivery",
+    3: "delivered",
+    "-2": "skipIntro"
   }
 
   var xhr = new XMLHttpRequest();
@@ -54,7 +61,7 @@ function getStatus(url) {
   var result = JSON.parse(xhr.responseText);
   var status = {
     id: result.statusId,
-    message: idToMessage[result.statusId]
+    message: orderStatus[result.statusId]
   };
 
   chrome.storage.sync.set(status);
