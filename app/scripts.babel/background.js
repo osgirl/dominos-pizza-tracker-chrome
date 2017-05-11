@@ -39,19 +39,19 @@ function getStatus(url) {
   }
 
   const orderStatus = {
-    "-1": "connectionError",
-    1: "cancelled",
-    4: "orderNotFound",
-    0: "init",
-    6: "order",
-    7: "prep",
-    5: "baking",
-    8: "quality",
-    10: "collection",
-    2: "collected",
-    9: "delivery",
-    3: "delivered",
-    "-2": "skipIntro"
+    '-1': 'connectionError',
+    1: 'cancelled',
+    4: 'orderNotFound',
+    0: 'init',
+    6: 'order',
+    7: 'prep',
+    5: 'baking',
+    8: 'quality',
+    10: 'collection',
+    2: 'collected',
+    9: 'delivery',
+    3: 'delivered',
+    '-2': 'skipIntro'
   }
 
   var xhr = new XMLHttpRequest();
