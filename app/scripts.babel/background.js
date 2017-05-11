@@ -33,7 +33,7 @@ function handleStatus(status) {
   chrome.storage.sync.set(status);
 }
 
-function getStatus(url) {
+function getStatus(url, done = () => {}) {
   if (!url) {
     return;
   }
@@ -55,16 +55,20 @@ function getStatus(url) {
   }
 
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', url, false);
+  xhr.open('GET', url, true);
+  xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var result = JSON.parse(xhr.responseText);
+      var status = {
+        id: result.statusId,
+        message: orderStatus[result.statusId]
+      };
+
+      chrome.storage.sync.set(status);
+      done();
+    }
+  }
   xhr.send();
-
-  var result = JSON.parse(xhr.responseText);
-  var status = {
-    id: result.statusId,
-    message: orderStatus[result.statusId]
-  };
-
-  chrome.storage.sync.set(status);
 };
 
 module.exports = {

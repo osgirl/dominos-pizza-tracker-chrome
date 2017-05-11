@@ -3,6 +3,7 @@ const assert = require('chai').assert;
 const nock = require('nock');
 
 global.chrome = require('sinon-chrome');
+global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 const {
   getStatus,
@@ -60,30 +61,28 @@ describe('background', function () {
       expect(getStatus()).to.be.undefined;
     });
 
-    xit('gets the status of a delivery order given the url', function () {
-      const orderStatus = {
-        '-1': 'connectionError',
-        1: 'cancelled',
-        4: 'orderNotFound',
-        0: 'init',
-        6: 'order',
-        7: 'prep',
-        5: 'baking',
-        8: 'quality',
-        10: 'collection',
-        2: 'collected',
-        9: 'delivery',
-        3: 'delivered',
-        '-2': 'skipIntro'
-      }
-
-      const req = nock('https://dominos.co.uk')
-        .get('/pizzaTracker/getOrderStatus/id=32')
+    it('gets the status of a delivery order given the url', function (done) {
+      const host = 'https://dominos.co.uk';
+      const path = '/pizzaTracker/getOrderStatus/id?=3241230941';
+      const req = nock(host)
+        .get(path)
         .reply(200, {
           statusId: 4
         });
 
-      expect(req.isDone()).to.be.true;
+      function cb() {
+        expect(req.isDone()).to.be.true;
+
+        const expectedArgs = {
+          id: 4,
+          message: 'orderNotFound'
+        }
+        assert.ok(chrome.storage.sync.set.withArgs(expectedArgs).calledOnce);
+
+        done();
+      }
+
+      getStatus(host + path, cb);
     });
   });
 
