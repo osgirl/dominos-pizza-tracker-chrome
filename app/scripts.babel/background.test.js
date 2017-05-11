@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const assert = require('chai').assert;
+const nock = require('nock');
 
 global.chrome = require('sinon-chrome');
 
@@ -61,20 +62,28 @@ describe('background', function () {
 
     xit('gets the status of a delivery order given the url', function () {
       const orderStatus = {
-        "-1": "connectionError",
-        1: "cancelled",
-        4: "orderNotFound",
-        0: "init",
-        6: "order",
-        7: "prep",
-        5: "baking",
-        8: "quality",
-        10: "collection",
-        2: "collected",
-        9: "delivery",
-        3: "delivered",
-        "-2": "skipIntro"
+        '-1': 'connectionError',
+        1: 'cancelled',
+        4: 'orderNotFound',
+        0: 'init',
+        6: 'order',
+        7: 'prep',
+        5: 'baking',
+        8: 'quality',
+        10: 'collection',
+        2: 'collected',
+        9: 'delivery',
+        3: 'delivered',
+        '-2': 'skipIntro'
       }
+
+      const req = nock('https://dominos.co.uk')
+        .get('/pizzaTracker/getOrderStatus/id=32')
+        .reply(200, {
+          statusId: 4
+        });
+
+      expect(req.isDone()).to.be.true;
     });
   });
 
