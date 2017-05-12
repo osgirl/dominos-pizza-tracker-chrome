@@ -19,7 +19,8 @@
     "http://*/*",
     "https://*/*",
     "notifications",
-    "storage"
+    "storage",
+    "alarms"
   ],
   "content_scripts": [
     {
