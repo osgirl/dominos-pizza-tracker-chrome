@@ -71,10 +71,12 @@ function getStatus(url, done = () => {}) {
   xhr.send();
 };
 
-module.exports = {
-  getStatus: getStatus,
-  handleStatus: handleStatus,
-  handleNewTab: handleNewTab,
-  stop: stop,
-  start: start,
-};
+if (typeof exports !== 'undefined') {
+  module.exports = {
+    getStatus: getStatus,
+    handleStatus: handleStatus,
+    handleNewTab: handleNewTab,
+    stop: stop,
+    start: start,
+  };
+}
